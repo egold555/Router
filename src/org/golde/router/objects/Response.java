@@ -1,8 +1,13 @@
 package org.golde.router.objects;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.golde.router.Router;
 import org.golde.router.enums.StatusCode;
@@ -128,6 +133,42 @@ public class Response {
 	 */
 	protected Gson getGson() {
 		return router.getGson();
+	}
+	
+	/**
+	 * Sends a file to the sender. If the file is not found, sends a 404 not found. If something else went wrong, it throws a 500 internal server error.
+	 * @param file The file to send
+	 * @param autoDownload should we auto download the file, or should we try to display it in the browser like images?
+	 */
+	public void sendFile(File file, boolean autoDownload) {
+		if(!file.exists()) {
+			setStatusCode(StatusCode.NOT_FOUND).sendText("File not found.");
+			return;
+		}
+		
+		try {
+			Path path = file.toPath();
+			byte[] data = Files.readAllBytes(path);
+			String mime = Files.probeContentType(path);
+			getHeaders().set("Accept-Ranges", "bytes");
+			getHeaders().set("Content-Disposition", "" + (autoDownload ? "attachment" : "inline") + "; filename=\"" + file.getName() + "\"");
+			send(mime, data);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			e.printStackTrace(pw);
+			pw.flush();
+			sw.flush();
+			setStatusCode(StatusCode.INTERNAL_SERVER_ERROR).sendText("An internal error occurred while processing this request.");
+			pw.close();
+			try {
+				sw.close();
+			} catch (IOException ignored) {
+				
+			}
+		}
 	}
 
 }
