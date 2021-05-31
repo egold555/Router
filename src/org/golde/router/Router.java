@@ -135,7 +135,7 @@ public class Router {
 	
 	private boolean checkForDuplicates(List<MethodHolder> inClass, MethodHolder holder) {
 		String holderValue = holder.route.value();
-		if(holderValue.charAt(holderValue.length() - 1) != '/') {
+		if(holderValue.length() != 0 && holderValue.charAt(holderValue.length() - 1) != '/') {
 			holderValue += "/";
 		}
 		
