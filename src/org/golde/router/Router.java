@@ -175,23 +175,23 @@ public class Router {
 
 	private static boolean doesMatch(HttpExchange exchange, Route route) {
 
-		if(!exchange.getRequestMethod().equals(route.method().name())) {
+		if(!exchange.getRequestMethod().equalsIgnoreCase(route.method().name())) {
 			return false;
 		}
 
 		//Make sure when comparing urls, we ignore query paramaters
-		String[] stripQueryParams = exchange.getRequestURI().toString().split("\\?");
+		String[] stripQueryParams = exchange.getRequestURI().toString().toLowerCase().split("\\?");
 		//System.out.println(Arrays.toString(stripQueryParams));
 
-		String[] split = stripQueryParams[0].substring(1).split("/");
+		String[] split = stripQueryParams[0].substring(1).toLowerCase().split("/");
 
 		//incase we fuck up, and add a / at the begining out of habit
-		String routeValue = route.value();
+		String routeValue = route.value().toLowerCase();
 		if(routeValue.length() != 0 && routeValue.charAt(0) == '/') {
 			routeValue = routeValue.substring(1);
 		}
 
-		String[] routeSplit = routeValue.split("/");
+		String[] routeSplit = routeValue.toLowerCase().split("/");
 
 		if(split.length != routeSplit.length) {
 			return false;
