@@ -120,7 +120,7 @@ public class Router {
 			for (final Method method : clazz.getDeclaredMethods()) {
 				if (method.isAnnotationPresent(Route.class)) {
 					Route annotInstance = method.getAnnotation(Route.class);
-					System.out.println(annotInstance.value() + " - " + annotInstance.method() + " - " + type.getSimpleName() + " - " + method.getName());
+					//System.out.println(annotInstance.value() + " - " + annotInstance.method() + " - " + type.getSimpleName() + " - " + method.getName());
 
 					MethodHolder holder = new MethodHolder(annotInstance, method, clazz);
 					if(!checkForDuplicates(methods, holder)) {
