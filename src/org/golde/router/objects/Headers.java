@@ -75,15 +75,6 @@ public class Headers {
 		sunHeaders.add(key, value);
 	}
 
-	/**
-	 * adds the given values to the list of headers for the given key. If the mapping does not already exist, then it is created
-	 * @param key the header name
-	 * @param values the header value to set
-	 */
-	public void set(String key, String... values) {
-		sunHeaders.put(key, Arrays.asList(values));
-	}
-
 	//Not sure why you would ever need this, but may add it if needed
 	//	public List<String> remove(String key) {
 	//		return sunHeaders.remove(key);
