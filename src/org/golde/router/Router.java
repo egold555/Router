@@ -201,6 +201,13 @@ public class Router {
 		for(int i = 0; i < split.length; i++) {
 			String annString = routeSplit[i];
 			String urlString = split[i];
+			
+			//System.out.println(annString + " --- " + urlString);
+			
+			//Fixed issue with Index.html
+			if(!annString.equals(urlString)) {
+				return false;
+			}
 
 
 			if(annString.length() != 0 && annString.charAt(0) != '{' && annString.charAt(annString.length() - 1) != '}') {
