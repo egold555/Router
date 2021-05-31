@@ -178,7 +178,7 @@ public class Request {
 	 * Get the Gson instance from the router
 	 * @return the gson instance
 	 */
-	protected Gson getGson() {
+	public Gson getGson() {
 		return router.getGson();
 	}
 
