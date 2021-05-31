@@ -101,6 +101,7 @@ public class Router {
 
 				}
 				catch(Throwable t) {
+					System.err.println("An error occurred while processing the given request:");
 					t.printStackTrace();
 				}
 
