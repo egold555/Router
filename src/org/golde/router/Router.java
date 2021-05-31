@@ -46,6 +46,9 @@ public class Router {
 	@Setter
 	private Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().serializeNulls().create();
 
+	@Setter
+	@Getter
+	private Route404 route404 = new RouteDefault404();
 	/**
 	 * Create a router on a specific port
 	 * @param port port for http server to be on
@@ -73,22 +76,29 @@ public class Router {
 
 			@Override
 			public void handle(HttpExchange exchange) throws IOException {
-				
-				//get rid of first argument in the array, then split it up into a list of arguments
-	
-				boolean invoked = false;
-				for(MethodHolder holder : allMethods) {
-					
-					if(doesMatch(exchange, holder.route)){
-						//execute
-						invokeMethod(exchange, holder);
-						invoked = true;
+				try {
+
+
+					//get rid of first argument in the array, then split it up into a list of arguments
+
+					boolean invoked = false;
+					for(MethodHolder holder : allMethods) {
+
+						if(doesMatch(exchange, holder.route)){
+							//execute
+							invokeMethod(exchange, holder);
+							invoked = true;
+						}
 					}
+
+					if(!invoked) {
+						//handle 404
+						route404.send404(new Request(routerTempInstance, exchange, new String[0]), new Response(routerTempInstance, exchange).setStatusCode(StatusCode.NOT_FOUND));
+					}
+
 				}
-				
-				if(!invoked) {
-					//handle 404
-					new Response(routerTempInstance, exchange).setStatusCode(StatusCode.NOT_FOUND).sendText("Sorry. That endpoint you are looking for appears to not exist. Are you sure you have the correct endpoint?");
+				catch(Throwable t) {
+					t.printStackTrace();
 				}
 
 			}
