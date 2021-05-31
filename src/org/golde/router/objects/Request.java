@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import org.golde.router.Router;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.sun.net.httpserver.HttpExchange;
@@ -20,6 +21,10 @@ import lombok.Getter;
 
 public class Request {
 
+	/**
+	 * The instance of the router
+	 * @Router the router instance
+	 */
 	private final Router router;
 	private final HttpExchange exchange;
 
@@ -169,6 +174,14 @@ public class Request {
 		catch(NumberFormatException e) {
 			return null;
 		}
+	}
+	
+	/**
+	 * Get the Gson instance from the router
+	 * @return the gson instance
+	 */
+	protected Gson getGson() {
+		return router.getGson();
 	}
 
 }

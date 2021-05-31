@@ -30,10 +30,18 @@ import lombok.Setter;
  */
 public class Router {
 
+	/**
+	 * Internal com.sun http server
+	 */
 	private HttpServer server;
 	
 	private List<MethodHolder> allMethods = new ArrayList<MethodHolder>();
 	
+	/**
+	 * Gson that is used for any JSON parsing endpoints, or endpoints that return json.
+	 * By default, we disable html escaping, pretty print, and serialize nulls.
+	 * Routes can access this by using {@link Response#getRouter().getGson()} or {@link Request#getRouter().getGson()}
+	 */
 	@Getter
 	@Setter
 	private Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().serializeNulls().create();

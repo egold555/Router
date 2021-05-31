@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import org.golde.router.Router;
 import org.golde.router.enums.StatusCode;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -22,6 +23,11 @@ public class Response {
 	private final Router router;
 	private final HttpExchange exchange;
 	private StatusCode statusCode = StatusCode.OK;
+	
+	/**
+	 * The headers that are sent back in the response
+	 * @return the headers class
+	 */
 	@Getter private final Headers headers;
 
 	/**
@@ -114,6 +120,14 @@ public class Response {
 	public Response setStatusCode(StatusCode statusCode) {
 		this.statusCode = statusCode;
 		return this;
+	}
+	
+	/**
+	 * Get the Gson instance from the router
+	 * @return the gson instance
+	 */
+	protected Gson getGson() {
+		return router.getGson();
 	}
 
 }
