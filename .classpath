@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="./lib/gson/gson-2.8.6.jar" sourcepath="./lib/gson/gson-2.8.6-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/./lib/gson/gson-2.8.6-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="./lib/lombok/lombok-1.18.20.jar" sourcepath="./lib/lombok/lombok-1.18.20-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/./lib/lombok/lombok-1.18.20-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
