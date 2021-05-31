@@ -13,7 +13,7 @@ import java.util.Set;
 public class Headers {
 
 	private final com.sun.net.httpserver.Headers sunHeaders;
-	
+
 	/**
 	 * Creates the Headers object. Constructor used internally, not really for public use.
 	 * @param sunHeaders the com.sun.net.httpserver.Headers
@@ -21,7 +21,7 @@ public class Headers {
 	Headers(com.sun.net.httpserver.Headers sunHeaders) {
 		this.sunHeaders = sunHeaders;
 	}
-	
+
 	/**
 	 * Removes all of the mappings from this map (optional operation). The map will be empty after this call returns.
 	 */
@@ -46,7 +46,7 @@ public class Headers {
 	public String getFirst(String key) {
 		return sunHeaders.getFirst(key);
 	}
-	
+
 	/**
 	 * Returns the value to which the specified key is mapped, or null if this map contains no mapping for the key.
 	 * More formally, if this map contains a mapping from a key k to a value v such that (key==null ? k==null : key.equals(k)), then this method returns v; otherwise it returns null. (There can be at most one such mapping.)
@@ -74,7 +74,7 @@ public class Headers {
 	public void set(String key, String value) {
 		sunHeaders.add(key, value);
 	}
-	
+
 	/**
 	 * adds the given values to the list of headers for the given key. If the mapping does not already exist, then it is created
 	 * @param key the header name
@@ -85,9 +85,9 @@ public class Headers {
 	}
 
 	//Not sure why you would ever need this, but may add it if needed
-//	public List<String> remove(String key) {
-//		return sunHeaders.remove(key);
-//	}
+	//	public List<String> remove(String key) {
+	//		return sunHeaders.remove(key);
+	//	}
 
 	/**
 	 * Returns the number of key-value mappings in this map. If the map contains more than Integer.MAX_VALUE elements, returns Integer.MAX_VALUE.

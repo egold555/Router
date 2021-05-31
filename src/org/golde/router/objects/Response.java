@@ -23,7 +23,7 @@ public class Response {
 	private final Router router;
 	private final HttpExchange exchange;
 	private StatusCode statusCode = StatusCode.OK;
-	
+
 	/**
 	 * The headers that are sent back in the response
 	 * @return the headers class
@@ -121,7 +121,7 @@ public class Response {
 		this.statusCode = statusCode;
 		return this;
 	}
-	
+
 	/**
 	 * Get the Gson instance from the router
 	 * @return the gson instance

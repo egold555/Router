@@ -30,14 +30,12 @@ public class Request {
 
 	@Getter private final Map<String, String> wildcards = new HashMap<String, String>();
 	@Getter private final Map<String, String> queryParameters = new HashMap<String, String>();
-	
+
 	/**
 	 * Get the headers from the request. Setting headers here will do nothing.
 	 * @return the headers object
 	 */
 	@Getter private final Headers headers;
-	
-	
 
 	public Request(Router router, HttpExchange exchange, String[] rawWildcards) {
 		this.router = router;
@@ -46,10 +44,10 @@ public class Request {
 		parseQueryParams(exchange);
 		this.headers = new Headers(exchange.getRequestHeaders());
 	}
-	
+
 	private void parseQueryParams(HttpExchange exchange) {
 		String[] stripQueryParams = exchange.getRequestURI().toString().split("\\?");
-		
+
 		if(stripQueryParams.length == 2) {
 			queryParameters.putAll(parseParamaters(stripQueryParams[1]));
 		}
@@ -76,7 +74,7 @@ public class Request {
 	public Map<String, String> getBodyAsForm() {
 		return parseParamaters(getBodyAsText());
 	}
-	
+
 	private static Map<String, String> parseParamaters(String in) {
 		String[] pairs = in.split("\\&");
 		Map<String, String> toReturn = new HashMap<String, String>();
@@ -95,7 +93,7 @@ public class Request {
 		catch(UnsupportedEncodingException e) {
 			return null;
 		}
-		
+
 		return toReturn;
 	}
 
@@ -175,7 +173,7 @@ public class Request {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Get the Gson instance from the router
 	 * @return the gson instance
