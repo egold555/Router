@@ -56,7 +56,7 @@ public class Request {
 		for(int i = 0; i < rawWildcards.length; i++) {
 			String rawStr = rawWildcards[i];
 			String splitStr = split[i];
-			if(rawStr.charAt(0) == '{' && rawStr.charAt(rawStr.length() - 1) == '}') {
+			if(rawStr.length() !=0 && rawStr.charAt(0) == '{' && rawStr.charAt(rawStr.length() - 1) == '}') {
 				System.out.println(rawStr + " -- " + splitStr);
 				wildcards.put(rawStr.replace("{", "").replace("}", ""), splitStr);
 			}

@@ -127,7 +127,7 @@ public class Router {
 		
 		for(MethodHolder mh : allHolder) {
 			String testValue = mh.route.value();
-			if(testValue.charAt(testValue.length() - 1) != '/') {
+			if(testValue.length() != 0 && testValue.charAt(testValue.length() - 1) != '/') {
 				testValue += "/";
 			}
 			
@@ -168,7 +168,7 @@ public class Router {
 		
 		//incase we fuck up, and add a / at the begining out of habit
 		String routeValue = route.value();
-		if(routeValue.charAt(0) == '/') {
+		if(routeValue.length() != 0 && routeValue.charAt(0) == '/') {
 			routeValue = routeValue.substring(1);
 		}
 		
@@ -184,16 +184,16 @@ public class Router {
 			String urlString = split[i];
 			
 			
-			if(annString.charAt(0) != '{' && annString.charAt(annString.length() - 1) != '}') {
+			if(annString.length() != 0 && annString.charAt(0) != '{' && annString.charAt(annString.length() - 1) != '}') {
 				//is not a wildcard, it must match
 				//System.out.println(annString + " - " + urlString);
-				if(!annString.equals(urlString)) {
+				if(annString.length() != 0 && !annString.equals(urlString)) {
 					matches = false;
 				}
 			}
 			else if(
-					(annString.charAt(0) != '{' && annString.charAt(annString.length() - 1) == '}') || 
-					(annString.charAt(0) == '{' && annString.charAt(annString.length() - 1) != '}')
+					(annString.length() != 0 && annString.charAt(0) != '{' && annString.charAt(annString.length() - 1) == '}') || 
+					(annString.length() != 0 && annString.charAt(0) == '{' && annString.charAt(annString.length() - 1) != '}')
 					
 					) {
 				
