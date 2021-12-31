@@ -204,8 +204,8 @@ public class Router {
 			
 			//System.out.println(annString + " --- " + urlString);
 			
-			//Fixed issue with Index.html
-			if(!annString.equals(urlString)) {
+			//Fix an issue with race condition with root
+			if(!annString.contains("{") && !annString.contains("}") && !annString.equals(urlString)) {
 				return false;
 			}
 
