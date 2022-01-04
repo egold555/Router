@@ -66,7 +66,15 @@ public class Router {
 	 * @param clazz Class to register
 	 */
 	public void register(Class<?> clazz) {
-		allMethods.addAll(getMethods(clazz));;
+		allMethods.addAll(getMethods(clazz, null));
+	}
+	
+	/**
+	 * Register an object that contains functions @Route annotated functions
+	 * @param instance Object to register
+	 */
+	public void register(Object instance) {
+		allMethods.addAll(getMethods(instance.getClass(), instance));
 	}
 
 	/**
@@ -112,7 +120,7 @@ public class Router {
 		server.start();
 	}
 
-	private List<MethodHolder> getMethods(final Class<?> type) {
+	private List<MethodHolder> getMethods(final Class<?> type, Object instanceObject) {
 		final List<MethodHolder> methods = new ArrayList<MethodHolder>();
 		Class<?> clazz = type;
 		while (clazz != Object.class) {
@@ -122,7 +130,7 @@ public class Router {
 					Route annotInstance = method.getAnnotation(Route.class);
 					//System.out.println(annotInstance.value() + " - " + annotInstance.method() + " - " + type.getSimpleName() + " - " + method.getName());
 
-					MethodHolder holder = new MethodHolder(annotInstance, method, clazz);
+					MethodHolder holder = new MethodHolder(annotInstance, method, clazz, instanceObject);
 					if(!checkForDuplicates(methods, holder)) {
 						methods.add(holder);
 					}
@@ -171,6 +179,7 @@ public class Router {
 		private final Route route;
 		private final Method method;
 		private final Class<?> clazz;
+		private final Object instanceObject;
 	}
 
 	private static boolean doesMatch(HttpExchange exchange, Route route) {
@@ -201,9 +210,9 @@ public class Router {
 		for(int i = 0; i < split.length; i++) {
 			String annString = routeSplit[i];
 			String urlString = split[i];
-			
+
 			//System.out.println(annString + " --- " + urlString);
-			
+
 			//Fix an issue with race condition with root
 			if(!annString.contains("{") && !annString.contains("}") && !annString.equals(urlString)) {
 				return false;
@@ -234,7 +243,15 @@ public class Router {
 
 	private void invokeMethod(HttpExchange exchange, MethodHolder holder) {
 		try {
-			holder.method.invoke(holder.clazz.newInstance(), new Request(this, exchange, holder.route.value().split("/")), new Response(this, exchange));
+			Object instanceObject = holder.instanceObject;
+
+			//if we don't have an existing intance object, we create a new one with a 0 arg constructor
+			if(instanceObject == null) {
+				instanceObject = holder.clazz.newInstance();
+			}
+
+			holder.method.invoke(instanceObject, new Request(this, exchange, holder.route.value().split("/")), new Response(this, exchange));
+
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
 			e.printStackTrace();
 		}
